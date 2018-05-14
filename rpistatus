@@ -1,0 +1,26 @@
+#Check if there are arguments
+if [ $# -eq 0 ]
+	then
+		forloop="01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18"
+		truth="TRUE"
+	else
+		forloop=$*
+		truth="FALSE"
+	fi
+for i in $forloop
+	do
+		if [ $truth == "TRUE" ]
+			then
+				RPI=rpi$i
+			else
+				RPI=$i
+		fi
+		OUTPUT="$(ping -c 1 $RPI)"
+		if [[ $OUTPUT =~ .*100%.* ]]
+			then
+				STATUS="dead"
+			else
+				STATUS="alive"
+		fi
+		echo "$RPI : $STATUS"
+	done
